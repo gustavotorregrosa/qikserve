@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  qikserve:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    platform: linux/amd64
+    env_file:
+      - ./.env.development
+
+
