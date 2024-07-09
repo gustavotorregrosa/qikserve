@@ -12,20 +12,25 @@ import { IState } from "@/store";
 import { IRestaurantState, setRestaurant } from "@/store/restaurant/slice";
 import { useEffect } from "react";
 
-const Home = () => {
+interface IHomeProps {
+    restaurantData: IRestaurantState
+}
+
+const Home = ({restaurantData}: IHomeProps) => {
 
     const dispatch = useDispatch()
     const restaurant = useSelector<IState, IRestaurantState>(state => state.restaurant)
 
     useEffect(() => {
-        loadRestaurantData()
+        dispatch(setRestaurant(restaurantData))
+        // loadRestaurantData()
     }, [])
 
-    const loadRestaurantData = async () => {
-       const result =  await fetch('https://corsproxy.io/?' + encodeURIComponent(process.env.NEXT_PUBLIC_RESTAURANT_DATA_API as string))
-       const data: IRestaurantState = await result.json()
-       dispatch(setRestaurant(data))
-    } 
+    // const loadRestaurantData = async () => {
+    //    const result =  await fetch('https://corsproxy.io/?' + encodeURIComponent(process.env.NEXT_PUBLIC_RESTAURANT_DATA_API as string))
+    //    const data: IRestaurantState = await result.json()
+    //    dispatch(setRestaurant(data))
+    // } 
 
     return <>
         <Head>
@@ -53,5 +58,17 @@ const Home = () => {
         
     </>
 } 
+
+export async function getStaticProps() {
+    const result =  await fetch('https://corsproxy.io/?' + encodeURIComponent(process.env.NEXT_PUBLIC_RESTAURANT_DATA_API as string))
+    const restaurantData: IRestaurantState = await result.json()
+
+    return {
+        props: {
+            restaurantData
+        }
+    }
+
+}
 
 export default Home
