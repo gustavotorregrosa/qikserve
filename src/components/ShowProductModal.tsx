@@ -57,6 +57,7 @@ export const ShowProductModal = () => {
                     <Typography className="text-xs min-w-[350px]" id="modal-modal-description" sx={{ mt: 2 }}>
                         {filter.productToShow?.description}
                     </Typography>
+                    <br/><br/>
                     <div className="flex flex-row justify-center w-full">
                         <div className="flex flex-row justify-between w-1/3">
                             <div onClick={() => setItemCount(count => count > 1 ? --count : count)}  style={{backgroundColor: restaurant.webSettings.navBackgroundColour}} className='rounded-full p-0 bg-white right-4 top-4 cursor-pointer'><RemoveIcon className="text-white" /></div>
@@ -64,6 +65,7 @@ export const ShowProductModal = () => {
                             <div onClick={() => setItemCount(count => ++count)} style={{backgroundColor: restaurant.webSettings.navBackgroundColour}} className='rounded-full p-0 bg-white right-4 top-4 cursor-pointer'><AddIcon className="text-white" /></div>
                         </div>
                     </div>
+                    <br/><br/>
                     <Button onClick={() => _addProductToCart()} sx={{backgroundColor: restaurant.webSettings.navBackgroundColour, color: 'white'}} className="rounded-full w-full mt-4">Add to Order - {restaurant.currency} {filter.productToShow ? (itemCount * Number(price(filter.productToShow))).toFixed(2) : null} </Button>
                 </div>
                
