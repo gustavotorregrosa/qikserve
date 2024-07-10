@@ -48,7 +48,7 @@ export const ProductsList = () => {
                 <p className="font-medium text-2xl">{selectedMenu()?.name}</p>
             </AccordionSummary>
             <AccordionDetails className="p-0">
-                {selectedMenu()?.items.map(item => menuItem(item))}
+                {selectedMenu()?.items.filter(item => item.name.toLowerCase().includes(filter.searchText.toLowerCase())).map(item => menuItem(item))}
             </AccordionDetails>
         </Accordion>
     </>

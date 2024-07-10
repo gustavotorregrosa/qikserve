@@ -10,9 +10,10 @@ import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "@/store";
 import { IRestaurantState, setRestaurant } from "@/store/restaurant/slice";
-import { useEffect } from "react";
 import { IMenuState, setMenu } from "@/store/menu/slice";
 import { ShowProductModal } from "@/components/ShowProductModal";
+import { BasketButton } from "@/components/BasketButton";
+import { BasketModal } from "@/components/BasketModal";
 
 interface IHomeProps {
     restaurantData: IRestaurantState
@@ -26,12 +27,6 @@ const Home = ({restaurantData, menuData}: IHomeProps) => {
     dispatch(setMenu(menuData))
 
     const restaurant = useSelector<IState, IRestaurantState>(state => state.restaurant)
-
-    useEffect(() => {
-        console.log({restaurantData})
-        console.log({menuData})
-       
-    }, [])
 
     return <>
         <Head>
@@ -48,15 +43,17 @@ const Home = ({restaurantData, menuData}: IHomeProps) => {
                         <br/><br/>
                         <ProductsList />
                     </div>
-                    <div className="w-1/3 bg-white md:mx-4 md:shadow hidden md:flex md:flex-col h-[120px]">
-                        <Basket />
+                    <div className="w-1/3">
+                        <div className="w-full bg-white md:mx-4 md:shadow hidden md:flex md:flex-col">
+                            <Basket />
+                        </div>
                     </div>
                 </div>
-
-               
             </Container>
             <ShowProductModal />
+            <BasketModal />
             <AllergyButton />
+            <BasketButton />
         </div>
         
     </>

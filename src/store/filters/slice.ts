@@ -4,16 +4,21 @@ import { Item } from '../menu/interfaces'
 
 export interface IFilterState{
    sectionID: string,
-   productToShow: Item | null
+   productToShow: Item | null,
+   searchText: string,
+   showBasketModal: boolean
 
 } 
+
 export interface IFilterActions {
     setSectionID: (state: IFilterState, action: PayloadAction<string>) => IFilterState
 }
 
 const initialState: IFilterState = {
    sectionID: '',
-   productToShow: null
+   productToShow: null,
+   searchText: '',
+   showBasketModal: false
    
 }
 
@@ -21,6 +26,27 @@ export const filterSlice = createSlice({
     name: 'filter',
     initialState,
     reducers: {
+        openBasketModal: (state) => {
+            return {
+                ...state,
+                showBasketModal: true
+            }
+        },
+
+        closeBasketModal: (state) => {
+            return {
+                ...state,
+                showBasketModal: false
+            }
+        },
+
+        setSearchText: (state, action: PayloadAction<string>) => {
+            return {
+                ...state,
+                searchText: action.payload
+            }
+
+        },
         setSectionID: (state, action: PayloadAction<string>) => {
                 return {
                     ...state,
@@ -37,7 +63,7 @@ export const filterSlice = createSlice({
     }
 })
 
-export const { setSectionID, setProductToShow } = filterSlice.actions
+export const { setSectionID, setProductToShow, setSearchText, openBasketModal, closeBasketModal } = filterSlice.actions
 
 export default filterSlice.reducer
 

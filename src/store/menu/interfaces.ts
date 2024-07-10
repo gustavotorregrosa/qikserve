@@ -38,13 +38,13 @@ export interface Item {
     available: boolean;
 }
 export interface ISection {
-id: number;
-name: string;
-description?: string | null;
-position: number;
-visible: number;
-images: Image[];
-items: Item[];
+    id: number;
+    name: string;
+    description?: string | null;
+    position: number;
+    visible: number;
+    images: Image[];
+    items: Item[];
 }
 
 export interface IMenu {
