@@ -2,7 +2,7 @@ import NavBar from "@/components/NavBar"
 import { Container } from "@mui/material";
 import { Banner } from "@/components/Banner";
 import { SearchBar } from "@/components/SearchBar";
-import { MenuCategories } from "@/components/MenuCategories";
+import { MenuCategoriesHeader } from "@/components/MenuCategoriesHeader";
 import { ProductsList } from "@/components/ProductList";
 import { AllergyButton } from "@/components/AllergyButton";
 import { Basket } from "@/components/Basket";
@@ -11,26 +11,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { IState } from "@/store";
 import { IRestaurantState, setRestaurant } from "@/store/restaurant/slice";
 import { useEffect } from "react";
+import { IMenuState, setMenu } from "@/store/menu/slice";
+import { ShowProductModal } from "@/components/ShowProductModal";
 
 interface IHomeProps {
     restaurantData: IRestaurantState
+    menuData: IMenuState
 }
 
-const Home = ({restaurantData}: IHomeProps) => {
+const Home = ({restaurantData, menuData}: IHomeProps) => {
 
     const dispatch = useDispatch()
+    dispatch(setRestaurant(restaurantData))
+    dispatch(setMenu(menuData))
+
     const restaurant = useSelector<IState, IRestaurantState>(state => state.restaurant)
 
     useEffect(() => {
-        dispatch(setRestaurant(restaurantData))
-        // loadRestaurantData()
+        console.log({restaurantData})
+        console.log({menuData})
+       
     }, [])
-
-    // const loadRestaurantData = async () => {
-    //    const result =  await fetch('https://corsproxy.io/?' + encodeURIComponent(process.env.NEXT_PUBLIC_RESTAURANT_DATA_API as string))
-    //    const data: IRestaurantState = await result.json()
-    //    dispatch(setRestaurant(data))
-    // } 
 
     return <>
         <Head>
@@ -43,7 +44,7 @@ const Home = ({restaurantData}: IHomeProps) => {
                 <SearchBar />
                 <div id="content-panel" className="flex flex-col md:flex-row p-2 md:p-10 my-4 bg-white md:bg-[#F8F9FA]">
                     <div className="w-full md:w-2/3 bg-white md:p-10 md:mx-4 md:shadow ">
-                        <MenuCategories />
+                        <MenuCategoriesHeader />
                         <br/><br/>
                         <ProductsList />
                     </div>
@@ -51,8 +52,10 @@ const Home = ({restaurantData}: IHomeProps) => {
                         <Basket />
                     </div>
                 </div>
+
                
             </Container>
+            <ShowProductModal />
             <AllergyButton />
         </div>
         
@@ -60,12 +63,18 @@ const Home = ({restaurantData}: IHomeProps) => {
 } 
 
 export async function getStaticProps() {
-    const result =  await fetch('https://corsproxy.io/?' + encodeURIComponent(process.env.NEXT_PUBLIC_RESTAURANT_DATA_API as string))
-    const restaurantData: IRestaurantState = await result.json()
+    const restaurantResult =  await fetch('https://corsproxy.io/?' + encodeURIComponent(process.env.NEXT_PUBLIC_RESTAURANT_DATA_API as string))
+    const restaurantData: IRestaurantState = await restaurantResult.json()
+
+    const menuResult =  await fetch('https://corsproxy.io/?' + encodeURIComponent(process.env.NEXT_PUBLIC_MENU_DATA_API as string))
+    const menuData: IRestaurantState = await menuResult.json()
+
+
 
     return {
         props: {
-            restaurantData
+            restaurantData,
+            menuData
         }
     }
 

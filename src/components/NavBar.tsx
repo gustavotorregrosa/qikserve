@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useEffect, useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -8,11 +8,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import { useSelector } from 'react-redux';
+import { IState } from '@/store';
+import { IRestaurantState } from '@/store/restaurant/slice';
+
 
 const pages = ['Menu', 'Entrar', 'Contato'];
 
+
 function NavBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -23,20 +28,35 @@ function NavBar() {
   };
 
 
+  const restaurant = useSelector<IState, IRestaurantState>(state => state.restaurant)
+  const [path, setPath] = useState('')
+
+  useEffect(() => {
+    setPath(window.location.pathname.toLowerCase())
+  }, [])
 
   return (
-    <AppBar position="static" sx={{backgroundColor: '#4F372F'}} className='bg-[#4F372F] h-[52px]'>
+    <AppBar position="static" sx={{backgroundColor: restaurant.webSettings.navBackgroundColour}} className='h-[52px]'>
       <Container maxWidth="xl">
           <Box sx={{ flexGrow: 1, flexDirection: 'row', justifyContent: 'center', display: { xs: 'none', md: 'flex' }, height: '52px'}}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ color: 'white', display: 'block', fontWeight: 400, width: '15em', borderColor: '#4F372F', borderBottom: 'none'}}
-              >
-                {page}
-              </Button>
-            ))}
+            {pages.map((page) => {
+
+              const style = { color: 'white', display: 'block', fontWeight: 400, width: '15em', borderColor: 'white', borderRadius: 0, borderBottom: 'none'}
+
+                if(path && path.includes(page.toLowerCase())){
+                  style.borderBottom = 'solid'
+                }
+
+              return (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={style}
+                >
+                  {page}
+                </Button>
+              )
+            })}
           </Box>
 
           <Box sx={{ flexGrow: 1, float: 'right', display: { xs: 'flex', md: 'none' } }}>
