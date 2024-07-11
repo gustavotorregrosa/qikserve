@@ -66,7 +66,7 @@ export const ShowProductModal = () => {
                         </div>
                     </div>
                     <br/><br/>
-                    <Button onClick={() => _addProductToCart()} sx={{backgroundColor: restaurant.webSettings.navBackgroundColour, color: 'white'}} className="rounded-full w-full mt-4">Add to Order - {restaurant.currency} {filter.productToShow ? (itemCount * Number(price(filter.productToShow))).toFixed(2) : null} </Button>
+                    <Button onClick={() => _addProductToCart()} sx={{backgroundColor: restaurant.webSettings.navBackgroundColour, color: 'white', "&:hover": {backgroundColor: restaurant.webSettings.navBackgroundColour, }}} className="rounded-full w-full mt-4">Add to Order - {restaurant.currency} {filter.productToShow ? (itemCount * Number(price(filter.productToShow))).toFixed(2) : null} </Button>
                 </div>
                
             </Box>
