@@ -31,6 +31,7 @@ const Home = ({restaurantData, menuData}: IHomeProps) => {
     return <>
         <Head>
             <title>{restaurant.name}</title>
+            <link rel="icon" href="/images/favicon.png" sizes="any" />
         </Head>
         <NavBar />
         <Banner />
